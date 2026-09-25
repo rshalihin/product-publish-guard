@@ -1,0 +1,13 @@
+{
+	"core": "WordPress/WordPress#6.5",
+	"phpVersion": "8.0",
+	"plugins": [
+		".",
+		"https://downloads.wordpress.org/plugin/woocommerce.9.0.0.zip"
+	],
+	"config": {
+		"WP_DEBUG": true,
+		"WP_DEBUG_LOG": true,
+		"WP_DEBUG_DISPLAY": false
+	}
+}

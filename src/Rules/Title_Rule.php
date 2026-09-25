@@ -1,0 +1,141 @@
+<?php
+/**
+ * The product title rule.
+ *
+ * @package ProductPublishGuard
+ */
+
+namespace ProductPublishGuard\Rules;
+
+use ProductPublishGuard\Engine\Abstract_Rule;
+use ProductPublishGuard\Engine\Product_Context;
+use ProductPublishGuard\Engine\Rule_Result;
+use ProductPublishGuard\Settings\Settings;
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Requires a real product title.
+ *
+ * "Real" excludes the placeholder WordPress writes into a freshly created auto-draft,
+ * which would otherwise make an untouched new product look as though it had a title.
+ *
+ * @since 1.0.0
+ */
+final class Title_Rule extends Abstract_Rule {
+
+	/**
+	 * Rule identifier.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function get_id(): string {
+		return 'title';
+	}
+
+	/**
+	 * Rule label.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function get_label(): string {
+		return __( 'Product title', 'product-publish-guard' );
+	}
+
+	/**
+	 * Settings-screen help text.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function get_description(): string {
+		return __( 'Checks that the product has a title of its own.', 'product-publish-guard' );
+	}
+
+	/**
+	 * Rule group.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
+	public function get_group(): string {
+		return 'content';
+	}
+
+	/**
+	 * Display order.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return int
+	 */
+	public function get_priority(): int {
+		return 10;
+	}
+
+	/**
+	 * Where to fix a failure.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return array
+	 */
+	public function get_fix_target(): array {
+		return array(
+			'selector' => '#title',
+			'label'    => __( 'Edit the title', 'product-publish-guard' ),
+			'panel'    => '',
+		);
+	}
+
+	/**
+	 * Evaluate the rule.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param Product_Context $context  The product being validated.
+	 * @param Settings        $settings The merchant's configuration.
+	 * @return Rule_Result
+	 */
+	public function check( Product_Context $context, Settings $settings ): Rule_Result {
+		unset( $settings );
+
+		$title = trim( $context->get_title() );
+
+		if ( '' === $title || $this->is_placeholder( $title ) ) {
+			return $this->fail( __( 'Add a product title.', 'product-publish-guard' ) );
+		}
+
+		return $this->pass();
+	}
+
+	/**
+	 * Whether a title is the one WordPress gives a brand-new auto-draft.
+	 *
+	 * Core writes this string through the default text domain, so the localized form has
+	 * to be matched as well as the English one.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $title Trimmed product title.
+	 * @return bool
+	 */
+	private function is_placeholder( string $title ): bool {
+		// phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- Matching core's own string, which is in the default domain.
+		$placeholders = array( 'Auto Draft', __( 'Auto Draft' ) );
+
+		foreach ( $placeholders as $placeholder ) {
+			if ( 0 === strcasecmp( $title, $placeholder ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+}

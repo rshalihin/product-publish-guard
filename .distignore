@@ -1,0 +1,24 @@
+# Everything listed here is excluded from the release zip.
+# Verified in Phase 12: assets/, tests/, node_modules/, vendor/, dotfiles and .claude/.
+
+.claude
+.git
+.github
+.gitignore
+.distignore
+.editorconfig
+.phpcs.cache
+.wp-env.json
+.wp-env.floor.json
+.wp-env.override.json
+assets
+node_modules
+tests
+vendor
+composer.json
+composer.lock
+package.json
+package-lock.json
+phpcs.xml.dist
+phpunit.xml.dist
+webpack.config.js

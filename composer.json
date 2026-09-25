@@ -1,0 +1,33 @@
+{
+	"name": "product-publish-guard/product-publish-guard",
+	"description": "A pre-publish quality checklist for WooCommerce products, with optional server-side publishing enforcement.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"keywords": [ "wordpress", "woocommerce", "products", "checklist", "quality" ],
+	"require": {
+		"php": ">=8.0"
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.13",
+		"wp-coding-standards/wpcs": "^3.1",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpunit/phpunit": "^9.6",
+		"yoast/phpunit-polyfills": "^3.0"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"sort-packages": true
+	},
+	"scripts": {
+		"lint": "phpcs",
+		"lint:fix": "phpcbf",
+		"test": "phpunit",
+		"test:unit": "phpunit --testsuite unit"
+	},
+	"support": {
+		"issues": "https://example.com/product-publish-guard/issues"
+	}
+}

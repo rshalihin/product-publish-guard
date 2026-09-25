@@ -1,0 +1,27 @@
+{
+	"name": "product-publish-guard",
+	"version": "1.0.0",
+	"description": "A pre-publish quality checklist for WooCommerce products.",
+	"license": "GPL-2.0-or-later",
+	"private": true,
+	"scripts": {
+		"build": "wp-scripts build",
+		"start": "wp-scripts start",
+		"format": "wp-scripts format",
+		"lint:js": "wp-scripts lint-js",
+		"lint:css": "wp-scripts lint-style",
+		"test:unit:js": "wp-scripts test-unit-js",
+		"env:start": "wp-env start",
+		"env:stop": "wp-env stop",
+		"env:floor": "cp .wp-env.floor.json .wp-env.override.json && wp-env start --update",
+		"env:current": "rm -f .wp-env.override.json && wp-env start --update",
+		"makepot": "wp i18n make-pot . languages/product-publish-guard.pot"
+	},
+	"devDependencies": {
+		"@wordpress/env": "^11.16.0",
+		"@wordpress/scripts": "^36.0.0"
+	},
+	"engines": {
+		"node": ">=20"
+	}
+}
